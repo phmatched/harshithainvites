@@ -1,0 +1,1143 @@
+/* ============================================================================
+   TULUNAD WEDDING INVITATION
+   Palette and type tokens live at the top — change colours there.
+   ========================================================================= */
+
+:root {
+  /* Colours */
+  --maroon:      #7C1F1A;
+  --maroon-deep: #4E1010;
+  --maroon-soft: #9B3A33;
+
+  --gold-d:  #9A711A;
+  --gold:    #C9A227;
+  --gold-l:  #E3CC8A;
+  --gold-p:  #F2E4BE;
+
+  --rose:    #B44E5E;
+  --leaf:    #3F7340;
+
+  --cream:   #FDF8F0;
+  --cream-2: #F7EFE2;
+  --ink:     #4A2C22;
+  --ink-soft:#7A5A4A;
+
+  /* Type */
+  --f-display: "Cinzel", "Marcellus", Georgia, serif;
+  --f-script:  "Great Vibes", "Snell Roundhand", cursive;
+  --f-body:    "Cormorant Garamond", Georgia, serif;
+  --f-kn:      "Noto Serif Kannada", "Tunga", "Nirmala UI", serif;
+
+  /* Layout */
+  --wrap: 1120px;
+  --gutter: clamp(18px, 5vw, 48px);
+  --radius: 4px;
+  --shadow:    0 10px 34px rgba(78, 16, 16, .10);
+  --shadow-lg: 0 26px 70px rgba(78, 16, 16, .20);
+
+  /* A reusable gold-foil sweep */
+  --foil: linear-gradient(100deg, var(--gold-d), var(--gold) 22%, var(--gold-p) 45%,
+                          var(--gold-l) 58%, var(--gold) 78%, var(--gold-d));
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--f-body);
+  font-weight: 400;
+  font-size: clamp(1.02rem, 3.6vw, 1.16rem);
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--cream-2) url("../img/wash-cream.png") center / cover fixed no-repeat;
+  overflow-x: hidden;
+}
+
+body.is-locked { overflow: hidden; }
+
+img, svg, iframe { max-width: 100%; }
+img { display: block; }
+
+.kn { font-family: var(--f-kn); font-weight: 400; line-height: 1.85; }
+
+/* Handmade-paper grain over everything */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: url("../img/grain.png") repeat;
+  opacity: .5;
+  mix-blend-mode: multiply;
+}
+
+
+/* ============================================================================
+   ENVELOPE
+   ========================================================================= */
+
+.envelope {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  overflow: hidden;
+  background: var(--maroon) url("../img/wash-deep.png") center / cover no-repeat;
+  transition: opacity .9s ease, visibility .9s;
+}
+
+.envelope.is-gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.envelope__toran {
+  position: absolute;
+  top: 0; left: 50%;
+  width: min(190%, 1500px);
+  transform: translateX(-50%);
+  opacity: .95;
+  pointer-events: none;
+}
+
+.envelope__corner {
+  position: absolute;
+  bottom: -2%;
+  width: clamp(150px, 40vw, 340px);
+  opacity: .62;
+  pointer-events: none;
+}
+.envelope__corner--l { left: -4%; }
+.envelope__corner--r { right: -4%; }
+
+.envelope__inner { position: relative; z-index: 2; text-align: center; }
+
+.envelope__kannada {
+  color: var(--gold-l);
+  font-size: clamp(1.3rem, 5.4vw, 1.9rem);
+  letter-spacing: .06em;
+  margin: 0 0 clamp(20px, 5vw, 32px);
+  text-shadow: 0 2px 14px rgba(0,0,0,.4);
+}
+
+.envelope__cue {
+  margin: clamp(26px, 6vw, 40px) 0 0;
+  font-family: var(--f-display);
+  color: var(--gold-p);
+  font-size: clamp(.68rem, 2.7vw, .8rem);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 10px rgba(0,0,0,.5);
+  animation: pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%,100% { opacity: .68 } 50% { opacity: 1 } }
+
+/* --- the envelope --- */
+.env {
+  position: relative;
+  display: block;
+  width: min(82vw, 370px);
+  aspect-ratio: 3 / 2;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  perspective: 1200px;
+  filter: drop-shadow(0 26px 44px rgba(0,0,0,.45));
+  transition: transform .45s ease;
+}
+.env:hover  { transform: translateY(-6px); }
+.env:active { transform: translateY(-1px); }
+.env:focus-visible { outline: 2px solid var(--gold-l); outline-offset: 16px; }
+
+.env__body {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 3px;
+  background: linear-gradient(165deg, var(--maroon-soft), var(--maroon) 52%, var(--maroon-deep));
+  clip-path: polygon(0 0, 50% 53%, 100% 0, 100% 100%, 0 100%);
+  /* drop-shadow traces the clipped silhouette, which a border cannot */
+  filter: drop-shadow(0 0 1px rgba(227,204,138,.85));
+}
+
+.env__flap {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 56%;
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform .85s cubic-bezier(.55,.05,.25,1);
+  background: linear-gradient(180deg, var(--maroon-soft), var(--maroon-deep));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  filter: drop-shadow(0 1px 1px rgba(227,204,138,.8));
+  /* No backface-visibility:hidden — the flap must stay visible as it swings
+     back, otherwise it vanishes the moment it passes 90deg. */
+}
+
+.env__card {
+  position: absolute;
+  left: 6%; right: 6%; bottom: 7%;
+  z-index: 2;
+  height: 84%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 3px;
+  background: linear-gradient(170deg, #fffdf8, var(--cream-2));
+  box-shadow: 0 -3px 18px rgba(0,0,0,.22), inset 0 0 0 1px rgba(201,162,39,.45);
+  transition: transform .95s cubic-bezier(.2,.8,.25,1);
+}
+
+.env__card-rule {
+  width: 46%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.env__card-names {
+  font-family: var(--f-script);
+  font-size: clamp(1.4rem, 6.4vw, 2rem);
+  line-height: 1.15;
+  color: var(--maroon);
+}
+
+.env__card-date {
+  font-family: var(--f-display);
+  font-size: clamp(.54rem, 2.2vw, .64rem);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.env__seal {
+  position: absolute;
+  top: 53%; left: 50%;
+  z-index: 5;
+  width: 22%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--foil);
+  box-shadow: 0 4px 12px rgba(0,0,0,.4), inset 0 0 0 2px rgba(255,255,255,.3);
+  transition: transform .5s ease, opacity .5s ease;
+}
+
+.env__seal-text {
+  font-family: var(--f-display);
+  font-size: clamp(.72rem, 3.2vw, .98rem);
+  letter-spacing: .02em;
+  color: var(--maroon-deep);
+}
+
+.env.is-open .env__flap { transform: rotateX(-176deg); }
+.env.is-open .env__seal { transform: translate(-50%,-50%) scale(0); opacity: 0; }
+.env.is-open .env__card { transform: translateY(-46%); z-index: 6; transition-delay: .5s; }
+
+
+/* ============================================================================
+   MUSIC TOGGLE
+   ========================================================================= */
+
+.music-toggle {
+  position: fixed;
+  right: 16px; bottom: 16px;
+  z-index: 60;
+  width: 46px; height: 46px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--maroon);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.music-toggle svg { width: 21px; height: 21px; }
+.music-toggle[hidden] { display: none; }
+
+
+/* ============================================================================
+   SHARED
+   ========================================================================= */
+
+.invitation { position: relative; z-index: 2; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  position: relative;
+  z-index: 2;
+}
+.wrap--narrow { max-width: 720px; }
+
+.section {
+  position: relative;
+  padding-block: clamp(64px, 12vw, 128px);
+  overflow: hidden;
+}
+.section--cream {
+  border-block: 1px solid rgba(201,162,39,.28);
+}
+
+/* Painted backdrops instead of flat cream bands — each section has its own
+   temperature, so scrolling moves through a sequence of related colours. */
+#countdown   { background: url("../img/bg-countdown.png")  center / cover no-repeat; }
+#invite-text { background: url("../img/bg-invitation.png") center / cover no-repeat; }
+#families    { background: url("../img/bg-families.png")   center / cover no-repeat; }
+#events      { background: url("../img/bg-events.png")     center / cover no-repeat; }
+#venue       { background: url("../img/bg-venue.png")      center / cover no-repeat; }
+
+#invite-text, #events { border-block: 1px solid rgba(201,162,39,.18); }
+
+/* A floral corner on every section, low enough to frame without shouting. */
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  bottom: -1.5%;
+  width: clamp(120px, 20vw, 250px);
+  aspect-ratio: 1;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: .20;
+  pointer-events: none;
+  z-index: 0;
+}
+.section::before {
+  left: -2%;
+  background-image: url("../img/corner-left.svg");
+  background-position: bottom left;
+}
+.section::after {
+  right: -2%;
+  background-image: url("../img/corner-right.svg");
+  background-position: bottom right;
+}
+
+.section__mandala {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: min(150%, 940px);
+  transform: translate(-50%, -50%);
+  opacity: .09;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.section__eyebrow {
+  text-align: center;
+  color: var(--gold-d);
+  font-size: clamp(.9rem, 3.4vw, 1.05rem);
+  margin: 0 0 4px;
+}
+
+.section__title {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(1.45rem, 5.4vw, 2.4rem);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  text-align: center;
+  margin: 0;
+}
+
+.section__sub {
+  text-align: center;
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: clamp(1rem, 3.7vw, 1.14rem);
+  margin: 0 0 clamp(30px, 6vw, 44px);
+}
+
+.section__motif {
+  display: block;
+  width: 36px; height: 36px;
+  margin: 0 auto 16px;
+  color: var(--leaf);
+  opacity: .65;
+}
+
+/* the drawn gold rule between headings and body */
+.rule-img {
+  width: min(320px, 62%);
+  margin: clamp(10px, 2.4vw, 16px) auto clamp(18px, 4vw, 28px);
+  opacity: .95;
+}
+
+.prose {
+  font-size: clamp(1.05rem, 3.9vw, 1.22rem);
+  text-align: center;
+  margin: 0 0 18px;
+}
+.prose--quiet {
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: clamp(30px, 6vw, 44px);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-family: var(--f-display);
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--maroon);
+  transition: transform .25s ease, background-color .25s ease, color .25s ease;
+}
+.btn svg { width: 16px; height: 16px; flex: none; }
+.btn:hover { transform: translateY(-2px); }
+
+.btn--solid { background: var(--maroon); color: var(--cream); }
+.btn--solid:hover { background: var(--maroon-deep); }
+.btn--ghost { background: transparent; color: var(--maroon); }
+.btn--ghost:hover { background: var(--maroon); color: var(--cream); }
+
+
+/* ============================================================================
+   1. HERO
+   ========================================================================= */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(84px, 17vw, 150px) var(--gutter) clamp(70px, 14vw, 120px);
+  overflow: hidden;
+  background: url("../img/wash-hero.png") center / cover no-repeat;
+}
+
+.hero__toran {
+  position: absolute;
+  top: 0; left: 50%;
+  width: min(200%, 1700px);
+  transform: translateX(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero__corner {
+  position: absolute;
+  bottom: -1%;
+  width: clamp(165px, 42vw, 400px);
+  z-index: 3;
+  opacity: .95;
+  pointer-events: none;
+}
+.hero__corner--l { left: -5%; }
+.hero__corner--r { right: -5%; }
+
+.hero__stage { position: relative; z-index: 2; width: 100%; display: grid; place-items: center; }
+
+/* The cusped arch frames the whole invitation text */
+.hero__frame {
+  width: min(600px, 94%);
+  background: url("../img/arch.svg") no-repeat center top / 100% 100%;
+  padding: clamp(74px, 19vw, 128px) clamp(30px, 8vw, 62px) clamp(34px, 8vw, 58px);
+  text-align: center;
+}
+
+.hero__kalasha {
+  width: clamp(46px, 12vw, 66px);
+  margin: 0 auto clamp(10px, 2.4vw, 16px);
+}
+
+.hero__invocation {
+  color: var(--maroon);
+  font-size: clamp(.94rem, 3.7vw, 1.1rem);
+  margin: 0 0 clamp(14px, 3.4vw, 22px);
+}
+
+.hero__intro {
+  font-size: clamp(.94rem, 3.5vw, 1.06rem);
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 0 0 clamp(10px, 2.6vw, 18px);
+  text-wrap: balance;
+}
+
+.hero__names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0px, .8vw, 6px);
+  margin: 0;
+  font-weight: 400;
+}
+
+.hero__name {
+  font-family: var(--f-script);
+  font-size: clamp(2.9rem, 14vw, 4.6rem);
+  line-height: 1.12;
+  color: var(--maroon);
+  text-shadow: 0 2px 18px rgba(201,162,39,.28);
+}
+
+.hero__with {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: clamp(1rem, 3.8vw, 1.2rem);
+  color: var(--gold-d);
+  line-height: 1.2;
+}
+
+.hero__kn-names {
+  margin: clamp(8px, 2vw, 14px) 0 0;
+  font-size: clamp(.88rem, 3.3vw, 1rem);
+  color: var(--ink-soft);
+}
+
+.hero__divider { width: min(240px, 72%); margin: clamp(12px, 3vw, 20px) auto; }
+
+.hero__date {
+  font-family: var(--f-display);
+  font-size: clamp(.86rem, 3.3vw, 1.02rem);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin: 0 0 6px;
+}
+
+.hero__venue {
+  margin: 0;
+  font-size: clamp(.92rem, 3.4vw, 1.04rem);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: clamp(18px, 4vw, 30px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: block;
+  width: 22px; height: 36px;
+  border: 1.5px solid var(--gold-d);
+  border-radius: 12px;
+}
+.hero__scroll span {
+  position: absolute;
+  top: 7px; left: 50%;
+  width: 3px; height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--gold-d);
+  animation: scroll-dot 2s ease-in-out infinite;
+}
+@keyframes scroll-dot {
+  0%   { transform: translateY(0);    opacity: 1 }
+  70%  { transform: translateY(13px); opacity: 0 }
+  100% { transform: translateY(0);    opacity: 0 }
+}
+
+
+/* ============================================================================
+   2. COUNTDOWN
+   ========================================================================= */
+
+.cd {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(8px, 2.4vw, 20px);
+  max-width: 660px;
+  margin-inline: auto;
+}
+.cd[hidden] { display: none; }   /* display:grid would beat the [hidden] attribute */
+
+.cd__unit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: clamp(16px, 3.6vw, 28px) clamp(4px, 1.5vw, 12px);
+  border: 1px solid var(--gold-l);
+  border-radius: var(--radius);
+  background: linear-gradient(165deg, #fffdf8, var(--cream-2));
+  box-shadow: var(--shadow);
+}
+.cd__unit::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(201,162,39,.35);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.cd__num {
+  font-family: var(--f-display);
+  font-size: clamp(1.5rem, 7.6vw, 2.7rem);
+  line-height: 1;
+  color: var(--maroon);
+  font-variant-numeric: tabular-nums;
+}
+
+.cd__label {
+  font-family: var(--f-display);
+  font-size: clamp(.52rem, 2.2vw, .66rem);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---- scratch-to-reveal foil over the countdown ---- */
+.scratch {
+  position: relative;
+  max-width: 680px;
+  margin-inline: auto;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.scratch__panel { padding-block: 10px; }
+
+.scratch__foil {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  cursor: grab;
+  /* the panel is short, and there is a Reveal button for anyone who would
+     rather not drag — so it can own the gesture */
+  touch-action: none;
+  box-shadow: inset 0 0 0 1px rgba(154,113,26,.55), 0 4px 16px rgba(78,16,16,.12);
+  transition: opacity .7s ease;
+
+  /* Hidden until JS has actually painted it — otherwise an empty canvas
+     would sit over the countdown showing only its border. */
+  opacity: 0;
+  pointer-events: none;
+}
+.scratch__foil:active { cursor: grabbing; }
+
+.scratch.is-armed .scratch__foil {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* must follow .is-armed — same specificity, so source order decides */
+.scratch.is-done .scratch__foil {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scratch__skip {
+  display: block;
+  margin: 14px auto 0;
+  padding: 6px 14px;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font-family: var(--f-display);
+  font-size: .66rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.scratch__skip:hover { color: var(--maroon); }
+.scratch__skip[hidden] { display: none; }
+
+.cd__when {
+  margin: clamp(14px, 3vw, 20px) 0 0;
+  text-align: center;
+  font-family: var(--f-display);
+  font-size: clamp(.76rem, 3vw, .92rem);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.cd__done {
+  text-align: center;
+  font-family: var(--f-script);
+  font-size: clamp(1.6rem, 7vw, 2.4rem);
+  color: var(--maroon);
+  margin: 0;
+}
+.cd__done[hidden] { display: none; }
+
+
+/* ============================================================================
+   4. FAMILIES
+   ========================================================================= */
+
+.peacock {
+  /* Hidden until there is real room beside the cards — part-cropped at
+     narrow widths it just reads as a pale smudge. */
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 300px;
+  opacity: .32;
+  pointer-events: none;
+  z-index: 1;
+}
+.peacock--l { left: -34px; }
+.peacock--r { right: -34px; transform: scaleX(-1); }
+
+@media (min-width: 1180px) {
+  .peacock { display: block; }
+}
+
+.fam {
+  display: grid;
+  gap: clamp(24px, 5vw, 40px);
+  align-items: stretch;   /* equal-height cards; `center` staggered them */
+}
+
+.fam__card {
+  position: relative;
+  text-align: center;
+  padding: clamp(28px, 5.5vw, 44px) clamp(20px, 4.5vw, 34px);
+  border: 1px solid rgba(201,162,39,.45);
+  border-radius: var(--radius);
+  background: linear-gradient(170deg, #fffdf8, var(--cream-2));
+  box-shadow: var(--shadow);
+}
+.fam__card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(201,162,39,.3);
+  pointer-events: none;
+}
+
+.fam__icon { width: 28px; height: 28px; color: var(--gold); margin: 0 auto 12px; }
+
+.fam__label { margin: 0 0 2px; font-size: clamp(.9rem, 3.3vw, 1rem); color: var(--gold-d); }
+
+.fam__title {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 4.2vw, 1.35rem);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin: 0 0 16px;
+}
+
+.fam__parents { margin: 0 0 8px; font-size: clamp(1rem, 3.7vw, 1.14rem); }
+.fam__grand   { margin: 0 0 8px; font-size: clamp(.88rem, 3.3vw, .98rem); color: var(--ink-soft); font-style: italic; }
+.fam__place   { margin: 0; font-family: var(--f-display); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-d); }
+
+.fam__divider { display: grid; place-items: center; }
+.fam__divider img { width: clamp(44px, 10vw, 66px); opacity: .75; }
+
+@media (min-width: 820px) {
+  .fam { grid-template-columns: 1fr auto 1fr; }
+}
+
+
+/* ============================================================================
+   5. EVENTS
+   Card mechanics mirror the reference: a 2-column grid of tall portrait
+   panels, rounded, gold-bordered, lifting on hover with the art easing in
+   behind fixed text.
+   ========================================================================= */
+
+/* the reference sets its "Events Schedule" heading in the script face */
+.section__title--script {
+  font-family: var(--f-script);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 8.6vw, 3.3rem);
+  letter-spacing: .01em;
+  text-transform: none;
+  line-height: 1.15;
+}
+
+.wrap--events { max-width: 1180px; }
+
+.events {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(22px, 4vw, 34px);
+}
+
+@media (min-width: 1024px) {
+  .events { grid-template-columns: repeat(2, 1fr); }
+}
+
+.ev { margin: 0; }
+
+.ev__card {
+  /* text inside scales against the CARD, not the viewport, so a card reads
+     the same at 350px on a phone and 530px on a desktop */
+  container-type: inline-size;
+
+  position: relative;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--gold-l);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  background: var(--cream) url("../img/wash-hero.png") center / cover no-repeat;
+  transition: transform .5s ease, box-shadow .5s ease;
+}
+
+.ev__card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+/* the event's own colour, laid over the painted wash */
+.ev__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+  opacity: .12;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* paper grain, as everywhere else */
+.ev__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: url("../img/grain.png") repeat;
+  opacity: .4;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ---- artwork layers ---- */
+.ev__art {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: transform .7s ease;
+}
+.ev__card:hover .ev__art { transform: scale(1.02); }
+
+.ev__toran {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 152%;
+  transform: translateX(-50%);
+}
+
+.ev__strand {
+  position: absolute;
+  top: 0;
+  width: 13%;
+  opacity: .92;
+}
+.ev__strand--l { left: 1.5%; }
+.ev__strand--r { right: 1.5%; transform: scaleX(-1); }
+
+.ev__scene {
+  position: absolute;
+  bottom: 0;
+  /* oversized so the painting fills the lower card rather than sitting in it
+     as a strip; its own alpha fade handles the overlap with the text */
+  left: -7%;
+  width: 114%;
+  /* the painting carries its own alpha fade at the top, so no CSS mask and
+     no crop — it composites straight onto the card's sky */
+}
+
+/* a supplied painting replaces every layer above */
+.ev__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- text over the art ---- */
+.ev__text {
+  position: relative;
+  z-index: 2;
+  padding: 30cqw 8.5cqw 0;
+  text-align: center;
+  color: var(--maroon);
+}
+
+.ev__motif {
+  width: 7.4cqw;
+  height: 7.4cqw;
+  margin: 0 auto 1.2cqw;
+  color: var(--gold-d);
+}
+
+.ev__kn {
+  margin: 0;
+  font-size: 4cqw;
+  line-height: 1.45;
+  color: var(--gold-d);
+}
+
+.ev__name {
+  margin: 0 0 1.2cqw;
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: 7.2cqw;
+  line-height: 1.12;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.ev__note {
+  margin: 0 0 2.4cqw;
+  font-size: 3.5cqw;
+  line-height: 1.38;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.ev__rule {
+  display: block;
+  width: 34%;
+  height: 1px;
+  margin: 0 auto 2cqw;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.ev__meta {
+  display: grid;
+  gap: 1cqw;
+  margin: 0 0 2.2cqw;
+}
+.ev__meta div { display: block; }
+.ev__meta dt {
+  font-family: var(--f-display);
+  font-size: 2.6cqw;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold-d);
+}
+.ev__meta dd {
+  margin: 0;
+  font-size: 3.7cqw;
+  line-height: 1.32;
+  color: var(--ink);
+}
+
+.ev__attire {
+  display: inline-block;
+  padding: 1.1cqw 3.4cqw;
+  border: 1px solid rgba(154, 113, 26, .55);
+  border-radius: 999px;
+  font-family: var(--f-display);
+  font-size: 2.6cqw;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--gold-d);
+}
+
+/* the Dhare Muhurtha keeps a heavier gold edge, but the same shape as the
+   rest — the reference gives no card special treatment */
+.ev--highlight .ev__card {
+  border-color: var(--gold);
+  border-width: 2px;
+  box-shadow: var(--shadow-lg);
+}
+
+/* On a phone the card is only ~354px wide, so text sized against it lands
+   small. Give the card a little more height and scale the type up to suit —
+   the extra height more than covers the taller text block. */
+@media (max-width: 620px) {
+  .ev__card       { aspect-ratio: 9 / 17.4; }
+  .ev__text       { padding-top: 27cqw; }
+  .ev__kn         { font-size: 4.4cqw; }
+  .ev__name       { font-size: 7.9cqw; }
+  .ev__note       { font-size: 3.9cqw; }
+  .ev__meta dt    { font-size: 2.9cqw; }
+  .ev__meta dd    { font-size: 4.1cqw; }
+  .ev__attire     { font-size: 2.9cqw; }
+}
+
+/* Container queries are near-universal now, but fall back to viewport units
+   so the text never collapses to nothing if they are missing. */
+@supports not (container-type: inline-size) {
+  .ev__text   { padding: clamp(96px, 30vw, 168px) 9% 0; }
+  .ev__motif  { width: 34px; height: 34px; margin-bottom: 8px; }
+  .ev__kn     { font-size: clamp(.95rem, 3.6vw, 1.15rem); }
+  .ev__name   { font-size: clamp(1.35rem, 5.4vw, 2rem); }
+  .ev__note   { font-size: clamp(.9rem, 3.3vw, 1.05rem); }
+  .ev__meta   { gap: 5px; }
+  .ev__meta dt { font-size: .62rem; }
+  .ev__meta dd { font-size: clamp(.92rem, 3.4vw, 1.08rem); }
+  .ev__attire { font-size: .62rem; padding: 5px 14px; }
+  .ev__rule   { margin-bottom: 12px; }
+}
+
+
+/* ============================================================================
+   6. VENUE
+   ========================================================================= */
+
+.venue {
+  display: grid;
+  gap: clamp(24px, 5vw, 40px);
+  align-items: center;
+}
+
+.venue__info { text-align: center; }
+.venue__icon { width: 32px; height: 32px; color: var(--gold); margin: 0 auto 12px; }
+
+.venue__name {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(1.2rem, 4.6vw, 1.55rem);
+  letter-spacing: .06em;
+  color: var(--maroon);
+  margin: 0 0 12px;
+}
+
+.venue__addr {
+  font-style: normal;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 3.7vw, 1.1rem);
+  line-height: 1.9;
+  margin: 0 0 26px;
+}
+
+.venue__map {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--gold-l);
+  box-shadow: var(--shadow);
+  aspect-ratio: 4 / 3;
+  background: var(--cream);
+}
+.venue__map iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+@media (min-width: 860px) {
+  .venue { grid-template-columns: 1fr 1.1fr; }
+  .venue__info { text-align: left; }
+  .venue__icon { margin-inline: 0; }
+  .venue__map { aspect-ratio: 1 / 1; }
+}
+
+
+/* ============================================================================
+   7. CLOSING
+   ========================================================================= */
+
+.closing {
+  position: relative;
+  padding-block: clamp(110px, 20vw, 180px) clamp(80px, 15vw, 130px);
+  text-align: center;
+  color: var(--cream);
+  overflow: hidden;
+  background: var(--maroon) url("../img/wash-deep.png") center / cover no-repeat;
+}
+
+.closing__toran {
+  position: absolute;
+  top: 0; left: 50%;
+  width: min(200%, 1700px);
+  transform: translateX(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.closing__mandala { opacity: .10; }
+
+.closing__corner {
+  position: absolute;
+  bottom: -2%;
+  width: clamp(140px, 34vw, 320px);
+  opacity: .5;
+  pointer-events: none;
+  z-index: 1;
+}
+.closing__corner--l { left: -5%; }
+.closing__corner--r { right: -5%; }
+
+.closing__flower { width: 30px; height: 30px; color: var(--gold-l); margin: 0 auto 18px; }
+
+.closing__title {
+  font-family: var(--f-script);
+  font-weight: 400;
+  font-size: clamp(2rem, 8.5vw, 3.1rem);
+  margin: 0 0 16px;
+  color: var(--gold-l);
+}
+
+.closing__body {
+  margin: 0 0 26px;
+  font-size: clamp(1.05rem, 3.9vw, 1.2rem);
+  opacity: .94;
+}
+
+.closing__families {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: clamp(.82rem, 3.2vw, .98rem);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold-l);
+}
+
+
+/* ============================================================================
+   SCROLL REVEAL  (only once JS is running)
+   ========================================================================= */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.js .reveal.is-in { opacity: 1; transform: none; }
+
+
+/* ============================================================================
+   REDUCED MOTION
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .js .reveal { opacity: 1; transform: none; }
+}
