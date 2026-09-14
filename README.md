@@ -88,7 +88,7 @@ Then open <http://localhost:8000>. Press `Ctrl+C` to stop.
 
 ## Publishing to GitHub Pages
 
-1. Create a new repository on GitHub (e.g. `wedding-invite`). It must be **public** for
+1. Create a new repository on GitHub (`harshithainvites`). It must be **public** for
    free Pages hosting.
 
 2. From this folder:
@@ -98,7 +98,7 @@ Then open <http://localhost:8000>. Press `Ctrl+C` to stop.
    git add .
    git commit -m "Wedding invitation"
    git branch -M main
-   git remote add origin https://github.com/YOUR-USERNAME/wedding-invite.git
+   git remote add origin https://github.com/phmatched/harshithainvites.git
    git push -u origin main
    ```
 
@@ -109,7 +109,7 @@ Then open <http://localhost:8000>. Press `Ctrl+C` to stop.
 4. Wait a minute or two. Your invitation is live at:
 
    ```
-   https://YOUR-USERNAME.github.io/wedding-invite/
+   https://phmatched.github.io/harshithainvites/
    ```
 
 5. **Now go back and fix the share-preview URLs** — see the next section. Then commit and
@@ -136,8 +136,8 @@ Open `index.html`, find the block marked `SHARE PREVIEW`, and edit the values th
 `og:image` and `og:url` must be **full absolute URLs**:
 
 ```html
-<meta property="og:image" content="https://YOUR-USERNAME.github.io/wedding-invite/assets/img/og-image.png">
-<meta property="og:url"   content="https://YOUR-USERNAME.github.io/wedding-invite/">
+<meta property="og:image" content="https://phmatched.github.io/harshithainvites/assets/img/og-image.png">
+<meta property="og:url"   content="https://phmatched.github.io/harshithainvites/">
 ```
 
 The preview picture itself is `assets/img/og-image.png` — a designed card with the names
