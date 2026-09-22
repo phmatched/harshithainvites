@@ -4,22 +4,22 @@
 <script>document.documentElement.classList.remove("no-js");</script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Prathik &amp; Harshitha — 23 December 2026, Udupi</title>
-<meta name="description" content="Together with their families, Prathik &amp; Harshitha invite you to their wedding — the Dhare muhurta at 11:28 AM on Wednesday, 23 December 2026, in Udupi, Karnataka." />
+<title>Harshitha &amp; Prathik — 23 December 2026, Udupi</title>
+<meta name="description" content="Together with their families, Harshitha &amp; Prathik invite you to their wedding — the Dhaare muhurta at 11:28 AM on Wednesday, 23 December 2026, in Udupi, Karnataka." />
 <meta name="theme-color" content="#12352F" />
 <meta name="color-scheme" content="light" />
 
 <!-- Open Graph / WhatsApp share card -->
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="Prathik &amp; Harshitha" />
-<meta property="og:title" content="Prathik &amp; Harshitha — 23 December 2026, Udupi" />
-<meta property="og:description" content="Madhrengi · Arishina · Dhare · Reception — Mangaluru &amp; Udupi, Karnataka. Please open your invitation." />
+<meta property="og:site_name" content="Harshitha &amp; Prathik" />
+<meta property="og:title" content="Harshitha &amp; Prathik — 23 December 2026, Udupi" />
+<meta property="og:description" content="Arashina · Madhrengi · Dhaare · Reception — Udupi, Karnataka. Please open your invitation." />
 <meta property="og:image" content="assets/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:locale" content="en_IN" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Prathik &amp; Harshitha — 23 December 2026, Udupi" />
+<meta name="twitter:title" content="Harshitha &amp; Prathik — 23 December 2026, Udupi" />
 <meta name="twitter:description" content="Four gatherings across two days. Please open your invitation." />
 <meta name="twitter:image" content="assets/og-image.jpg" />
 
@@ -477,16 +477,19 @@ header.hero{
 .event .ev-photo .frame{position:absolute;inset:0;border-radius:0}
 .event:nth-of-type(even) .ev-photo{order:2}
 .ev-body{
+  /* the side gutter: the hairline below tracks it so the two never collide */
+  --ev-gutter:clamp(26px,6vw,100px);
   display:flex;flex-direction:column;justify-content:center;
-  padding:clamp(54px,7vw,110px) clamp(26px,6vw,100px);
+  padding:clamp(54px,7vw,110px) var(--ev-gutter);
   position:relative;background:var(--shell);overflow:hidden;
 }
 .ev-body::before{
   content:"";position:absolute;top:26px;bottom:26px;width:1px;z-index:1;
   background:linear-gradient(180deg,transparent,rgba(176,136,66,.5),transparent);
 }
-.event:nth-of-type(odd) .ev-body::before{left:26px}
-.event:nth-of-type(even) .ev-body::before{right:26px}
+/* 26px while the gutter is roomy; slides in once it would crowd the text */
+.event:nth-of-type(odd) .ev-body::before{left:min(26px,calc(var(--ev-gutter) - 12px))}
+.event:nth-of-type(even) .ev-body::before{right:min(26px,calc(var(--ev-gutter) - 12px))}
 .ev-body>*{position:relative;z-index:2}
 
 .event[data-tint="nischaya"]  .ev-body{background:linear-gradient(160deg,#F0F4E6,#E4EDD6)}
@@ -495,6 +498,9 @@ header.hero{
 .event[data-tint="dhare"]     .ev-body{background:linear-gradient(160deg,#FBF6EE,#F4E8DC)}
 .event[data-tint="reception"] .ev-body{background:linear-gradient(165deg,#153B34,#102B26);color:var(--shell)}
 .event[data-tint="madhrengi"] .ev-desc,.event[data-tint="reception"] .ev-desc{color:#C9BEB0}
+.event[data-tint="madhrengi"] .ev-note,.event[data-tint="reception"] .ev-note{color:#C9BEB0}
+.event[data-tint="madhrengi"] .ev-tag,.event[data-tint="reception"] .ev-tag,
+.event[data-tint="madhrengi"] .ev-note small,.event[data-tint="reception"] .ev-note small{color:var(--gold-soft)}
 .event[data-tint="reception"] .ev-desc{color:#B9CBBF}
 .event[data-tint="madhrengi"] .ev-meta dt,.event[data-tint="reception"] .ev-meta dt{color:var(--gold-soft)}
 .event[data-tint="madhrengi"] .ev-motif svg,.event[data-tint="reception"] .ev-motif svg{stroke:var(--gold-soft)}
@@ -515,7 +521,13 @@ header.hero{
   font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.4vw,82px);
   line-height:1.06;letter-spacing:.03em;margin-bottom:24px;
 }
+.ev-tag{font-family:var(--serif-soft);font-style:italic;font-size:18px;line-height:1.5;
+  color:var(--gold);max-width:34ch;margin:-8px 0 24px}
 .ev-desc{font-size:15px;line-height:1.8;color:var(--ink-soft);max-width:44ch;margin-bottom:34px}
+.ev-note{font-family:var(--serif-soft);font-style:italic;font-size:15.5px;line-height:1.7;
+  color:var(--ink-soft);max-width:44ch;margin-bottom:30px}
+.ev-note small{display:block;font-family:var(--sans);font-style:normal;font-size:10px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-top:14px}
 .ev-meta{display:grid;grid-template-columns:max-content 1fr;gap:12px 26px;font-size:14.5px;max-width:470px;margin-bottom:32px}
 .ev-meta dt{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);padding-top:5px}
 .ev-meta dd{font-family:var(--serif);font-size:18.5px;letter-spacing:.04em}
@@ -885,7 +897,7 @@ body.menu-open{overflow:hidden}
   nav .links{gap:clamp(11px,1.9vw,22px)}
   nav .links a{font-size:10.5px;letter-spacing:.2em}
   nav .brand{font-size:18px}
-  .ev-body{padding:clamp(44px,5.4vw,74px) clamp(26px,4.6vw,58px)}
+  .ev-body{--ev-gutter:clamp(26px,4.6vw,58px);padding:clamp(44px,5.4vw,74px) var(--ev-gutter)}
   .ev-body h3{font-size:clamp(34px,4.4vw,56px)}
   .ev-meta{gap:11px 20px}
 }
@@ -894,7 +906,7 @@ body.menu-open{overflow:hidden}
 @media (max-width:400px) {
   section{padding-left:18px;padding-right:18px}
   .c-date{font-size:11px;letter-spacing:.04em}
-  .ev-body{padding:46px 20px}
+  .ev-body{--ev-gutter:20px;padding:46px var(--ev-gutter)}
   .ev-meta{gap:10px 16px;font-size:14px}
   .ev-meta dd{font-size:17px}
   .ev-actions{gap:9px}
@@ -921,6 +933,7 @@ body.menu-open{overflow:hidden}
   .hero h1.display{font-size:32px}
   .hero-sub .place{letter-spacing:.2em}
   .ev-body h3{font-size:34px}
+  .ev-tag{font-size:16px}
   .s-date{font-size:38px}
 }
 
@@ -950,7 +963,7 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-offset:3px}
   .event{display:block!important;min-height:0!important;page-break-inside:avoid}
   .ev-body{background:#fff!important;color:#000!important;padding:10px 0!important}
   .ev-body h3{font-size:20pt!important;margin-bottom:8px!important}
-  .ev-ghost,.ev-motif,.ev-desc{display:none!important}
+  .ev-ghost,.ev-motif,.ev-desc,.ev-tag,.ev-note{display:none!important}
   .hero{min-height:0!important;padding:0 0 18px!important}
   .hero h1.display{font-size:30pt!important}
   .hero-arch{width:150px!important}
@@ -1010,7 +1023,7 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-offset:3px}
         <div class="inv-card" id="invCard" role="button" tabindex="0" aria-label="Open the invitation card">
           <div class="card-face card-front">
             <span class="c-eyebrow">The Wedding Of</span>
-            <span class="c-names" id="cardNames">Prathik <em class="amp">&amp;</em> Harshitha</span>
+            <span class="c-names" id="cardNames">Harshitha <em class="amp">&amp;</em> Prathik</span>
             <span class="c-rule"></span>
             <span class="c-date" id="cardDate">December 2026 · the date awaits</span>
             <span class="c-venue" id="cardVenue">Udupi · Karnataka</span>
@@ -1108,7 +1121,7 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-offset:3px}
     </div>
 
     <h1 class="display">
-      <span class="line"><span><span class="hero-name" id="nameA">Prathik</span><em class="amp hero-amp">&amp;</em><span class="hero-name" id="nameB">Harshitha</span></span></span>
+      <span class="line"><span><span class="hero-name" id="nameA">Harshitha</span><em class="amp hero-amp">&amp;</em><span class="hero-name" id="nameB">Prathik</span></span></span>
     </h1>
 
     <div class="hero-sub">
@@ -1148,7 +1161,7 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-offset:3px}
     <div class="scratch-under">
       <span class="s-eyebrow">Save The Date</span>
       <span class="s-date" id="sDate">23 December 2026</span>
-      <span class="s-muhurat" id="sMuhurat">Dhare Muhurta · 11:28 AM</span>
+      <span class="s-muhurat" id="sMuhurat">Dhaare Muhurta · 11:28 AM</span>
     </div>
     <canvas id="scratchCv" aria-label="Scratch to reveal the wedding date"></canvas>
   </div>
@@ -1167,7 +1180,7 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-offset:3px}
 
   <div class="count-foot">
     <span class="rule"></span>
-    <p id="cdFoot">Until the dhare in Udupi</p>
+    <p id="cdFoot">Until the dhaare in Udupi</p>
   </div>
 </section>
 
@@ -1232,13 +1245,13 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-offset:3px}
 <!-- ===================== CLOSING ===================== -->
 <section class="closing dark">
   <div class="frame" data-art="closing" data-img="assets/closing.jpg" data-parallax="8"><div class="veil"></div></div>
-  <blockquote class="line"><span id="closingQuote">&ldquo;Whatever the tide brings — we want to meet it beside you.&rdquo;<small id="closingBy">Prathik &amp; Harshitha</small></span></blockquote>
+  <blockquote class="line"><span id="closingQuote">&ldquo;Whatever the tide brings — we want to meet it beside you.&rdquo;<small id="closingBy">Harshitha &amp; Prathik</small></span></blockquote>
 </section>
 
 <!-- ===================== FOOTER ===================== -->
 <footer>
   <div class="mono" id="footMono"></div>
-  <p class="names" id="footNames">Prathik &amp; Harshitha</p>
+  <p class="names" id="footNames">Harshitha &amp; Prathik</p>
   <p class="tag" id="hashtag">#pHmatched</p>
   <p class="kan fkan" id="footKan">ಶುಭಂ ಭವತು</p>
   <button class="fshare" id="shareBtn">Share this invitation <svg aria-hidden="true"><use href="#i-share"/></svg></button>
@@ -1262,9 +1275,9 @@ const CONFIG = {
   groom:  "Prathik",
   brideFull: "Harshitha Karkera",
   groomFull: "Prathik Suvarna",
-  monogram: "P·H",
+  monogram: "H·P",
   // which name leads everywhere the pair is shown: "groom" or "bride"
-  nameOrder: "groom",                     // shown on the coin, card back and footer
+  nameOrder: "bride",                     // shown on the coin, card back and footer
   city:   "Udupi · Karnataka",
   hashtag:"#pHmatched",
 
@@ -1276,8 +1289,8 @@ const CONFIG = {
   muhurta:      "2026-12-23T11:28:00+05:30", // drives the countdown
   dateLabel:    "23 December 2026",
   dateTease:    "December 2026",                // shown before the scratch reveal
-  muhurtaShort: "Dhare Muhurta · 11:28 AM",
-  countdownFoot:"Until the dhare in Udupi",
+  muhurtaShort: "Dhaare Muhurta · 11:28 AM",
+  countdownFoot:"Until the dhaare in Udupi",
 
   /* ---------- where the wishes wall posts ---------- */
   // "" = DEMO MODE (saves to this browser only, nothing leaves the device).
@@ -1292,34 +1305,42 @@ const CONFIG = {
   /* ---------- the venue of the wedding day ---------- */
   venue: {
     name: "Townhall Udupi",
-    addr: "Sri Aroor Lakshminarayana Rao Memorial Town Hall, Brahmagiri, Udupi. The dhare is poured here, and the reception follows in the same hall.",
+    addr: "Sri Aroor Lakshminarayana Rao Memorial Town Hall, Brahmagiri, Udupi. The dhaare is poured here, and the reception follows in the same hall.",
     maps: "Sri Aroor Lakshminarayana Rao Memorial Hall, Udupi"
   },
 
   /* ---------- the celebrations ---------- */
   events: [
+    { key:"arishina", kan:"ಸೂರ್ಯಕಾಂತಿಯ ಅರಶಿನ ಶಾಸ್ತ್ರ", ghost:"ಅರಶಿನ",
+      name:"Suryakanthiya Arashina Shasthra", art:"evArishina", img:"assets/event-arishina.jpg",
+      tag:"A golden morning of love, blessings and beautiful beginnings",
+      desc:"With the first rays of sunshine and the golden glow of haldi, we invite you to join us for a morning filled with love, laughter and blessings.",
+      date:"Monday, 21 December 2026", time:"8:00 AM onwards",
+      venue:"Radhakrupa", venueSub:"Padukere, Udupi",
+      dress:"Yellow",
+      dressSub:"Come dressed in your brightest shades of sunshine and add to our golden celebration.",
+      note:"Let us bloom, glow and celebrate together.",
+      sign:"Suryakanthi · Arashina · Sambhrama",
+      maps:"Radhakrupa, Padukere, Udupi", mapsLink:"https://maps.app.goo.gl/vQLzjzxWoLABZqrv6",
+      start:"2026-12-21T08:00:00+05:30", end:"2026-12-21T12:00:00+05:30" },
+
     { key:"madhrengi", kan:"ಮಧರೆಂಗಿ", ghost:"ಮಧರೆಂಗಿ",
-      name:"Madhrengi", art:"evMadhrengi", img:"assets/event-madhrengi.jpg",
-      desc:"Let the music play, the lights sparkle, and the celebrations begin! With hearts full of joy and excitement, we invite you to join us for an evening of dance, music, laughter & endless sparkle of the madrengi event.",
+      name:"The Madhrengi Night", art:"evMadhrengi", img:"assets/event-madhrengi.jpg",
+      tag:"Bling & Beats",
+      desc:"Let the music play, the lights sparkle, and the celebrations begin. With hearts full of joy and excitement, we invite you to join us for an evening of dance, music, laughter and endless sparkle.",
       date:"Monday, 21 December 2026", time:"7:00 PM onwards",
-      venue:"Hotel Pooja Parivar", venueSub:"Kinnigoli Road, Haleangadi",
-      dress:"",
-      maps:"Hotel Pooja Parivar, Haleangadi",
-      start:"2026-12-22T18:00:00+05:30", end:"2026-12-22T23:00:00+05:30" },
+      venue:"Radhakrupa", venueSub:"Padukere, Udupi",
+      dress:"Bling & Glam",
+      note:"Your presence will make our celebration sparkle even brighter.",
+      maps:"Radhakrupa, Padukere, Udupi", mapsLink:"https://maps.app.goo.gl/vQLzjzxWoLABZqrv6",
+      start:"2026-12-21T19:00:00+05:30", end:"2026-12-21T23:00:00+05:30" },
 
-    { key:"arishina", kan:"ಅರಿಶಿನ", ghost:"ಅರಿಶಿನ",
-      name:"Arishina Shastra", art:"evArishina", img:"assets/event-arishina.jpg",
-      desc:"Turmeric, coconut oil and a great deal of laughter, before the sun is properly up. The elders anoint him, the youngsters make sure none of it stays neat, and nobody leaves unmarked.",
-      date:"Wednesday, 23 December 2026", time:"6:30 AM onwards",
-      venue:"Panchawati House", venueSub:"Mukka Checkpost, Mangaluru",
-      dress:"",
-      maps:"Mukka Checkpost, Mangaluru",
-      start:"2026-12-23T06:30:00+05:30", end:"2026-12-23T09:00:00+05:30" },
-
-    { key:"dhare", kan:"ದಾರೆ", ghost:"ದಾರೆ",
-      name:"Dhare", art:"evDhare", img:"assets/event-dhare.jpg",
-      desc:"The heart of it. A gold nanya rests in Harshitha's palm, Prathik's hands close over hers, and her parents pour the holy water from the chembu — the kombu sounds, and the mangalsutra is tied.",
-      date:"Wednesday, 23 December 2026", time:"Dhare Muhurta 11:28 AM",
+    { key:"dhare", kan:"ಧಾರೆ ಏರಿ ಕೊಡುವ ಶುಭ ಗಳಿಗೆ", ghost:"ಧಾರೆ",
+      name:"Dhaare", art:"evDhare", img:"assets/event-dhare.jpg",
+      tag:"An auspicious moment",
+      desc:"As sacred water flows, two lives are blessed to flow together. A promise is made, a new journey begins, and the Karimani is tied as a sacred mark of love, commitment, and togetherness.",
+      note:"A cherished moment where two hearts unite, embracing a lifetime of shared dreams, love, and blessings.",
+      date:"Wednesday, 23 December 2026", time:"Dhaare Muhurta 11:28 AM",
       venue:"Townhall Udupi", venueSub:"Sri Aroor Lakshminarayana Rao Memorial Town Hall · Brahmagiri, Udupi",
       dress:"Traditional",
       maps:"Sri Aroor Lakshminarayana Rao Memorial Hall, Udupi",
@@ -1338,7 +1359,7 @@ const CONFIG = {
   /* ---------- seed wishes (a wall is never shown empty) ---------- */
   seedWishes: [
     { name:"Sharada Kamath", when:"4 Sep 2026",
-      msg:"May the water poured at your dhare keep you cool-headed and warm-hearted for the rest of your lives. We have watched you grow up, Prathik \u2014 bringing Harshitha home is the best thing you have done yet." },
+      msg:"May the water poured at your dhaare keep you cool-headed and warm-hearted for the rest of your lives. We have watched you grow up, Harshitha \u2014 bringing Prathik home is the best thing you have done yet." },
     { name:"Deepika Rai", when:"12 Sep 2026",
       msg:"Harshitha, I have never seen you laugh the way you do around him. That is all a friend really needs to know. A lifetime of it to you both." },
     { name:"Sudhakar & Vasanthi Pai", when:"19 Sep 2026",
@@ -1359,6 +1380,8 @@ const esc = s => String(s == null ? "" : s)
   .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
   .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 const mapsUrl = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+/* An event may pin its own Google Maps link; otherwise we search for the landmark. */
+const evMapsUrl = ev => ev.mapsLink || mapsUrl(ev.maps);
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const params  = new URLSearchParams(location.search);
 
@@ -1898,15 +1921,19 @@ function renderEvents() {
         '<div class="ev-idx">' + ROMAN[i] + ' of ' + ROMAN[n - 1] + '</div>' +
         '<div class="kan ev-kan line"><span>' + esc(ev.kan) + '</span></div>' +
         '<h3 class="line"><span>' + esc(ev.name) + '</span></h3>' +
+        (ev.tag ? '<p class="ev-tag">' + esc(ev.tag) + '</p>' : '') +
         '<p class="ev-desc">' + esc(ev.desc) + '</p>' +
         '<dl class="ev-meta">' +
           '<dt>Date</dt><dd>' + esc(ev.date) + '</dd>' +
           '<dt>Time</dt><dd>' + esc(ev.time) + '</dd>' +
           '<dt>Venue</dt><dd>' + esc(ev.venue) + '<small>' + esc(ev.venueSub) + '</small></dd>' +
-          (ev.dress ? '<dt>Dress</dt><dd>' + esc(ev.dress) + '</dd>' : '') +
+          (ev.dress ? '<dt>Dress</dt><dd>' + esc(ev.dress) +
+            (ev.dressSub ? '<small>' + esc(ev.dressSub) + '</small>' : '') + '</dd>' : '') +
         '</dl>' +
+        (ev.note ? '<p class="ev-note">' + esc(ev.note) +
+          (ev.sign ? '<small>' + esc(ev.sign) + '</small>' : '') + '</p>' : '') +
         '<div class="ev-actions">' +
-          '<a class="ev-act" target="_blank" rel="noopener" href="' + mapsUrl(ev.maps) + '"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>' +
+          '<a class="ev-act" target="_blank" rel="noopener" href="' + evMapsUrl(ev) + '"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>' +
           '<button class="ev-act" type="button" data-ics="' + i + '"><svg aria-hidden="true"><use href="#i-cal"/></svg>Add to calendar</button>' +
           '<a class="ev-act" target="_blank" rel="noopener" href="' + gcalUrl(ev) + '"><svg aria-hidden="true"><use href="#i-cal"/></svg>Google Calendar</a>' +
         '</div>' +
@@ -2279,7 +2306,7 @@ function initReveals() {
     revealFrame(f);
   });
 
-  const soft = ".ev-desc,.ev-meta,.ev-actions,.ev-idx,.venue-panel .addr,.venue-panel .btn," +
+  const soft = ".ev-tag,.ev-desc,.ev-note,.ev-meta,.ev-actions,.ev-idx,.venue-panel .addr,.venue-panel .btn," +
                ".wish-form,.wish,.scratch-wrap,.scratch-skip,.count-foot";
   $$(soft).forEach(function (el) {
     reveal(el, el, "translateY(30px)", "translateY(0)", 1150);
@@ -2604,7 +2631,7 @@ function buildIcs(list) {
     "TZOFFSETFROM:+0530", "TZOFFSETTO:+0530", "TZNAME:IST", "END:STANDARD", "END:VTIMEZONE"];
   list.forEach(function (ev, i) {
     const desc = ev.desc.replace(/[,;]/g, "\\$&") +
-      (ev.dress ? "\\n\\nDress: " + ev.dress : "") + "\\n" + mapsUrl(ev.maps);
+      (ev.dress ? "\\n\\nDress: " + ev.dress : "") + "\\n" + evMapsUrl(ev);
     s = s.concat([
       "BEGIN:VEVENT",
       "UID:" + ev.key + "-" + icsStamp(ev.start) + "-" + i + "@wedding.invite",
