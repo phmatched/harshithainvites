@@ -1,296 +1,176 @@
-# Wedding Invitation
+# Sanjana & Rohit — a Mangalorean Hindu wedding invitation
 
-A single-page online wedding invitation in the Tulunad (coastal Karnataka) tradition,
-built to be hosted free on GitHub Pages.
-
-No build step, no npm, no frameworks. What is in this folder is exactly what gets served.
-All the artwork — the marigold toran, the cusped arch, the floral corners, the peacock,
-the mandala, the watercolour backgrounds — is drawn from scratch and lives in this repo.
-Nothing is licensed from anyone, and there is nothing to pay for.
+A single-file wedding invitation website. No build step, no dependencies, no
+npm. Open `index.html` by double-clicking it, or drag this folder onto Netlify.
 
 ---
 
-## Editing your details
+## Quick start
 
-**Everything you need to change is in one file: [`assets/js/data.js`](assets/js/data.js).**
+```bash
+# just open it
+open index.html
 
-Open it in any text editor. Every placeholder is marked `<<< DUMMY >>>`. Change the text
-between the quotes, save, refresh the page. Nothing else needs touching.
-
-Two rules:
-
-1. Keep the quotes — `"Ashwini"` is right, `Ashwini` is wrong.
-2. Keep the comma at the end of each line.
-
-If the page ever goes blank after an edit, you've almost certainly dropped a quote or a
-comma. Undo the last change and try again.
-
-### The date format matters
-
-`muhurta` drives the countdown and the calendar buttons, so it has a strict format:
-
-```
-"2026-12-06T11:15:00+05:30"
- YYYY-MM-DD T HH:MM:SS  +05:30   <- 24-hour clock, IST. Keep the +05:30.
-```
-
-11:15 AM is `11:15:00`; 7:00 PM is `19:00:00`.
-
-`dateLine` is the separate, human-readable line shown under the names — write that
-however you like, e.g. `"Sunday, 6 December 2026"`.
-
-### The map
-
-`venue.mapsQuery` is literally what gets typed into Google Maps. Venue name plus city
-usually works. If the map lands on the wrong place, open Google Maps, right-click the
-venue, copy the coordinates, and paste those instead:
-
-```js
-mapsQuery: "12.9141,74.8560",
-```
-
-`venue.short` is the one-line version shown under the names at the top. Keep it brief —
-the full address appears further down.
-
-### Events
-
-The Nishchaya Tambila is deliberately not listed — it has already taken place.
-
-To remove an event, delete its whole `{ ... }` block including the trailing comma.
-To add one, copy an existing block and change the values. Keep `highlight: true` on the
-Dhare Muhurtha only — it gives that card a heavier gold edge.
-
-Each event card is built from:
-
-- `scene` — the artwork along its foot: `haldi`, `mehendi`, `dhare` or `lamp`
-- `accent` / `accentDeep` — the two sky colours behind it
-- `icon` — its motif: `turmeric`, `mehendi`, `dhare`, `lamp`, `betel`, `mallige`
-- `image` — leave `""` to use the built-in artwork, or point at your own
-  painting (see [The event cards](#the-event-cards))
-
-Keep `note` under about 100 characters — longer and it crowds the artwork.
-
----
-
-## Previewing on your computer
-
-You can't just double-click `index.html` — the map and fonts need a real server.
-In Terminal:
-
-```sh
-cd /Users/prathik/Documents/InvitationAshu
+# or serve it (recommended — matches how it behaves when deployed)
 python3 -m http.server 8000
+# → http://localhost:8000
 ```
 
-Then open <http://localhost:8000>. Press `Ctrl+C` to stop.
+Deploy by dragging this folder onto [netlify.com/drop](https://app.netlify.com/drop),
+or push it to GitHub and enable Pages. There is nothing to compile.
 
 ---
 
-## Publishing to GitHub Pages
+## Changing the details
 
-1. Create a new repository on GitHub (`harshithainvites`). It must be **public** for
-   free Pages hosting.
+**Everything** the site says lives in one `CONFIG` object at the top of the
+`<script>` block near the bottom of `index.html`. Search for `const CONFIG`.
 
-2. From this folder:
-
-   ```sh
-   git init
-   git add .
-   git commit -m "Wedding invitation"
-   git branch -M main
-   git remote add origin https://github.com/phmatched/harshithainvites.git
-   git push -u origin main
-   ```
-
-3. On GitHub: **Settings → Pages → Build and deployment**
-   - Source: **Deploy from a branch**
-   - Branch: **main**, folder: **/ (root)** → Save
-
-4. Wait a minute or two. Your invitation is live at:
-
-   ```
-   https://phmatched.github.io/harshithainvites/
-   ```
-
-5. **Now go back and fix the share-preview URLs** — see the next section. Then commit and
-   push again.
-
-To publish changes later: `git add . && git commit -m "Update details" && git push`.
-
-### A custom domain (optional)
-
-If you own a domain, add a file named `CNAME` at the top level of this folder containing
-just the domain (e.g. `ashwini-rakshith.com`), push it, and point the domain's DNS at
-GitHub Pages. Then use that domain in the share-preview tags below.
-
----
-
-## The WhatsApp share preview
-
-This is the one thing **not** in `data.js`. When someone pastes the link into WhatsApp,
-the preview card comes from `<meta>` tags near the top of `index.html`. WhatsApp reads
-those with a crawler that doesn't run JavaScript, so they have to be written into the
-HTML directly.
-
-Open `index.html`, find the block marked `SHARE PREVIEW`, and edit the values there.
-`og:image` and `og:url` must be **full absolute URLs**:
-
-```html
-<meta property="og:image" content="https://phmatched.github.io/harshithainvites/assets/img/og-image.png">
-<meta property="og:url"   content="https://phmatched.github.io/harshithainvites/">
-```
-
-The preview picture itself is `assets/img/og-image.png` — a designed card with the names
-on it. Once you've put the real names in `data.js`, regenerate it:
-
-```sh
-python3 tools/make_share_card.py
-```
-
-It reads the names, date and venue from `data.js` so the card can't drift from the site.
-(macOS only — it renders via QuickLook. If you're not on a Mac, ask and I'll regenerate it.)
-
-WhatsApp caches previews aggressively. If you change these after sharing the link, the old
-card may stick around for a day or so — test with a throwaway chat before sending it out
-to everyone.
-
----
-
-## The artwork
-
-Nothing here is a stock photo or a licensed asset. The artwork is made by two kinds of
-generator in `tools/`:
-
-- **Painted rasters** — the event scenes, the section backdrops and the watercolour washes
-  are produced by a small painting engine (`tools/paint.py`): soft brush dabs with colour
-  jitter, atmospheric haze for depth, one directional light with warm highlights and cool
-  shadows, contact shadows, and additive bloom around every flame.
-- **Vector ornament** — the toran, arch, mandala, corner sprays and dividers stay SVG, so
-  they hold their edge at any size.
-
-| File | What it is |
+| What | Where in CONFIG |
 |---|---|
-| `toran.svg` | The marigold-and-mango-leaf garland across the top |
-| `arch.svg` | The cusped Mughal arch framing the names |
-| `corner-left/right.svg` | Rose, jasmine and marigold corner sprays |
-| `mandala.svg` | The faint medallion behind each section |
-| `kalasha.svg` | The sacred pot with coconut and mango leaves |
-| `peacock.svg` | Peacock pair (shown on wide screens only) |
-| `divider.svg` | The lotus rule under each heading |
-| `garland-side.svg` | Hanging strand — mallige, rudraksha and a brass bell |
-| `scene-haldi.png` | *Painted* — turmeric pots, marigold backdrop, banana clumps |
-| `scene-mehendi.png` | *Painted* — lanterns in bloom, a low divan, henna cones |
-| `scene-dhare.png` | *Painted* — tiled mandap, gopuram receding into haze |
-| `scene-lamp.png` | *Painted* — brass lamp stands, a row of diyas, a lotus pond |
-| `bg-*.png` | *Painted* — one backdrop per interior section |
-| `wash-*.png` | *Painted* — the hero, body and closing washes |
-| `grain.png` | Handmade-paper texture laid over everything |
+| Names, city, hashtag, monogram | `bride`, `groom`, `city`, `hashtag`, `monogram` |
+| The muhurta (drives the countdown) | `muhurta` — ISO 8601 **with the +05:30 offset** |
+| Date shown before/after the scratch reveal | `dateTease`, `dateLabel`, `muhurtaShort` |
+| The five celebrations | `events[]` |
+| Our Story chapters | `story[]` |
+| Travel & stay cards | `travel[]` |
+| Album captions | `gallery[]` |
+| FAQ | `faq[]` |
+| Seed blessings on the wishes wall | `seedWishes[]` |
+| WhatsApp number + prefilled message | `whatsapp`, `waMessage` |
 
-### The event cards
+Add or remove events, FAQs, travel cards or gallery tiles freely — the page
+renders whatever is in the arrays, and the roman numerals ("III of V")
+renumber themselves.
 
-Each event is a tall 9:16 panel built from layers — a sky tinted with that
-event's `accent`, the toran across the top, hanging strands down both edges, and
-its `scene` along the bottom — with the text laid over in HTML. Nothing is baked
-into a picture, so editing `data.js` is all it takes to change a time or a venue.
+### Photographs
+See `assets/README.txt`. The site is designed to look finished with **no
+photos at all** — it draws its own coastal artwork — and upgrades itself as
+soon as you add files.
 
-The scene itself is a painted PNG with a transparent, faded top edge, so it composites
-onto the card's own sky.
+---
 
-**To use your own illustration instead**, drop a tall portrait image (9:16, e.g.
-1080×1920) into `assets/img/events/` and point that event at it:
+## Collecting real RSVPs
+
+Out of the box `CONFIG.rsvpEndpoint` is `""`, which means **demo mode**:
+responses are saved in that visitor's own browser and never leave the device.
+Good for showing the site off; useless for actually collecting replies.
+
+Visit `index.html?admin=1` to reveal a **Download responses (CSV)** button for
+whatever this browser has stored.
+
+To collect replies for real, pick one:
+
+### Option A — Formspree (fastest)
+1. Sign up at [formspree.io](https://formspree.io), create a form, copy the
+   endpoint (`https://formspree.io/f/xxxxxxx`).
+2. Set `rsvpEndpoint: "https://formspree.io/f/xxxxxxx"`.
+
+Replies arrive by email and appear in the Formspree dashboard.
+
+### Option B — Google Sheets (free, unlimited)
+1. New Google Sheet → **Extensions → Apps Script**, paste:
 
 ```js
-image: "assets/img/events/dhare.jpg",
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  var d = JSON.parse(e.postData.contents);
+  if (sheet.getLastRow() === 0) sheet.appendRow(Object.keys(d));
+  sheet.appendRow(Object.keys(d).map(function (k) { return d[k]; }));
+  return ContentService.createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 ```
 
-That one line replaces every generated layer for that card. Nothing else changes,
-and you can do it for one event or all four.
+2. **Deploy → New deployment → Web app**, execute as *Me*, access
+   *Anyone*. Copy the `/exec` URL into `rsvpEndpoint`.
 
-### Changing the colours
-
-Site colours are CSS variables at the top of [`assets/css/style.css`](assets/css/style.css) —
-change `--maroon`, `--gold`, and the rest there.
-
-The colours *inside* the artwork are set at the top of the two generator scripts. To
-recolour the flowers or the gold, edit the palette constants and re-run:
-
-```sh
-python3 tools/generate_ornament.py      # redraws the SVG ornament
-python3 tools/generate_backgrounds.py   # repaints the hero/body/closing washes
-python3 tools/generate_backdrops.py     # repaints the per-section backdrops
-python3 tools/generate_scenes.py        # repaints the four event scenes
-```
-
-The painting engine itself is `tools/paint.py`. The scene layouts and their palettes are
-at the top of `generate_scenes.py`.
-
-Both write straight into `assets/img/`. Only needed if you want different colours — the
-artwork is already committed.
-
-### Fonts
-
-Cinzel (headings), Cormorant Garamond (body), Great Vibes (the names) and Noto Serif
-Kannada, all loaded from Google Fonts. The Kannada font is not optional — system
-fallbacks render Kannada conjuncts badly.
+Either way, if the network call fails the reply is still saved locally and the
+guest is pointed at the WhatsApp button, so nothing is ever silently lost.
+The wishes wall posts to the same endpoint with `type: "wish"`.
 
 ---
 
-## The scratch card
+## Personalised links
 
-In the Counting Down section the timer and the muhurta date sit under a brushed
-gold foil. Guests scratch it away with a finger or the mouse; once about half is
-cleared the rest fades on its own. There is a **Reveal without scratching** link
-underneath for anyone who would rather not drag.
-
-The time shown on it is read from `muhurta` in `data.js` and formatted in IST, so
-it can never disagree with the countdown above it. If JavaScript doesn't run, no
-foil is drawn and the countdown is simply visible.
-
----
-
-## Before you share the link
-
-- [ ] Every `<<< DUMMY >>>` in `data.js` replaced with real details
-- [ ] **All Kannada text proofread by someone who reads Kannada** — especially names.
-      The ritual names and the invocation were written from reference, not dictation.
-- [ ] Family names, spellings and honorifics checked by both families
-- [ ] `muhurta` date and time confirmed against the actual muhurta
-- [ ] Map pin opens to the right venue
-- [ ] `python3 tools/make_share_card.py` re-run with the real names
-- [ ] Share-preview `<meta>` tags in `index.html` updated with the live URL and real names
-- [ ] Opened on an actual phone, and the link pasted into a WhatsApp chat to check the
-      preview card
-
----
-
-## Optional: background music
-
-Off by default. To switch it on:
-
-1. Put an `.mp3` in `assets/audio/`
-2. In `data.js`, set `music.enabled` to `true` and `music.file` to the filename
-
-A mute button appears in the bottom-right corner. Music starts only when the envelope is
-tapped — every browser requires a tap before playing audio, so this is by design.
-
----
-
-## What's in here
+Append `?to=` to send someone their own copy:
 
 ```
-index.html            The invitation. All sections, and the small motif icons.
-404.html              Shown if someone mistypes the URL.
-.nojekyll             Tells GitHub Pages to serve these files as-is. Don't delete.
-assets/css/style.css  All styling. Colours are the variables at the very top.
-assets/js/data.js     >>> YOUR DETAILS GO HERE <<<
-assets/js/app.js      Builds the page from data.js. You shouldn't need to edit this.
-assets/img/           The artwork, the favicon and the share image.
-assets/audio/         Optional background music.
-tools/                Scripts that generate the artwork and the share card.
+https://your-site.example/?to=Sudha%20Aunty
 ```
 
-### A note on file paths
+The hero greets them by name and their name is pre-filled in the RSVP form.
 
-Every link in this site is **relative** (`assets/css/style.css`, never `/assets/...`).
-On a GitHub project page the site is served from `/your-repo/`, and absolute paths
-starting with `/` will 404. If you add files, keep the paths relative.
+---
+
+## Devices
+
+Built and hardened for phones, tablets, laptops and desktops, portrait and
+landscape:
+
+- **Safe areas** — the page declares `viewport-fit=cover`, and every fixed
+  edge (nav, menu, music button, lightbox close, footer) insets itself with
+  `env(safe-area-inset-*)`, so nothing hides under an iPhone notch or home
+  indicator.
+- **Viewport units** — every `svh` has a `vh` fallback for iOS < 15.4 and
+  Android Chrome < 108.
+- **iOS form zoom** — all inputs are 16px, so focusing a field never zooms.
+- **Touch** — no information is hidden behind `:hover` (gallery captions are
+  always visible on touch), buttons do not stick in their hover fill after a
+  tap, and every target is at least 44–48px.
+- **Scroll** — the scratch panel uses `touch-action: pan-y`, so you can scratch
+  it sideways *and* still scroll the page through it. There is also a
+  "Reveal it for me" button.
+- **In-app browsers** (WhatsApp, Instagram) — these often block file
+  downloads, so every event offers a **Google Calendar** link beside the
+  `.ics` download, and `localStorage` access is wrapped so a blocked store
+  never throws.
+- **Rotation** — rotating the phone mid-gate re-centres the invitation card.
+- **Reduced motion** — the whole animation layer, gate included, is bypassed.
+- **No JavaScript** — content still renders rather than sitting behind a
+  curtain it cannot lift.
+
+### Testing on a real device
+
+Serve the folder and open it on your phone over the same wifi:
+
+```bash
+python3 -m http.server 8000
+ipconfig getifaddr en0        # macOS: your laptop's LAN address
+# → open http://<that-address>:8000 on the phone
+```
+
+Then add `?devicecheck=1` to the URL:
+
+```
+http://192.168.1.20:8000/?devicecheck=1
+```
+
+A small panel reports that device's viewport, orientation, horizontal
+overflow (and *which element* causes it, if any), safe-area insets, CSS
+feature support, how many artwork frames drew, and how many tap targets fall
+under 40px. It updates live as you rotate. Anything wrong shows in red.
+
+---
+
+## Structure
+
+One file, in this order: `<head>` (meta, Open Graph, fonts) → `<style>`
+(tokens, components, device layer, reduced-motion, print) → markup →
+`<script>` (CONFIG, art engine, motion kernel, section renderers,
+interactions).
+
+- **Art engine** — `ART` draws every scene as inline SVG from a small library
+  of coastal primitives (palms, gopuram, tile roofs, jasmine, betel leaves,
+  the dhaare chembu, oil lamps).
+- **Motion kernel** — `Motion` replaces GSAP/ScrollTrigger/Lenis with the Web
+  Animations API, one `IntersectionObserver`, and a single `requestAnimationFrame`
+  loop for parallax. Nothing is loaded from a CDN, so the page works offline
+  and will not rot when a library version disappears.
+
+---
+
+## Printing
+
+`Cmd/Ctrl+P` produces a clean single-page invitation card — the animation,
+photography, forms and gallery are all stripped out.
