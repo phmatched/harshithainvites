@@ -44,9 +44,11 @@ renders whatever is in the arrays, and the roman numerals ("III of V")
 renumber themselves.
 
 ### Photographs
-See `assets/README.txt`. The site is designed to look finished with **no
+See `README.txt`. The site is designed to look finished with **no
 photos at all** — it draws its own coastal artwork — and upgrades itself as
-soon as you add files.
+soon as you add files. The one exception is the four celebration panels, which
+already ship with cut-out illustrations (`event-*.webp`) standing inside the
+drawn scenes; `README.txt` explains how to put a photograph there instead.
 
 ---
 
